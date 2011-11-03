@@ -1,0 +1,8 @@
+to commit locally:
+	git commit -a -m 'commit statement'
+
+to commit to github:
+	git push P4 master
+
+to update your local repo with the github version:
+	git pull P4 master
