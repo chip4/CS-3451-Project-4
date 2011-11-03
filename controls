@@ -1,0 +1,30 @@
+[space]+mouse :roatae view
+z+mouse       : zoom
+.+mouse  : center screen at pt
+s+mouse  : shows closest corner
+c        : set current corner
+[number]+mouse  : move numbered spheres
+
+v+mouse : move the vertex in a plane parallel to screen
+d+mouse : change vertex depth
+
+Y : refines mesh
+N : next corner
+P : prev corner
+S : swing
+U : unswing
+L : left
+R : right
+O : opposite corner
+
+G : circulates through meshes
+] : recenters the model
+= : toggle transparency
+- : toggle edge view
+_ : toggle flat shading/smooth shading
+| : show normals
+x+mouse : delete triangle
+` : recompute mesh, shows a red boundary
+/ : edge flip
+B : smooth 
+p : computes path from seed to current corner
