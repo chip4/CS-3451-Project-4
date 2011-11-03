@@ -1,7 +1,7 @@
 // CORNER TABLE FOR TRIANGLE MESHES by Jarek Rosignac
 // Last edited October, 2011
 // example meshesshowShrunkOffsetT
-String [] fn= {"bunny.vts","horse.vts","torus.vts","flat.vts","tet.vts","fandisk.vts","squirrel.vts","venus.vts","mesh.vts","heart.vts","hole.vts","gs_dimples_bumps.vts"};
+String [] fn= {"bunny.vts","horse.vts","torus.vts","flat.vts","tet.vts","fandisk.vts","squirrel.vts","venus.vts"};
 int fni=0; int fniMax=fn.length; // file names for loading meshes
 
 //========================== class MESH ===============================
