@@ -423,6 +423,10 @@ void computeIsolation() {
   println("finished isolation");
   }
   
+void clearMt(){
+  for(int i=0; i<nt; i++) {Mt[i]=0;}; // reset marking
+}
+
 void computePath(int startCorner, int endCorner) {                 // graph based shortest path between t(c0 and t(prevc), prevc is the previously picekd corner
   int[] tempMt = new int[maxnt];                 // triangle markers for distance and other things   
   for(int i=0; i<nt; i++) {tempMt[i]=0;}; // reset marking
