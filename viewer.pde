@@ -156,7 +156,7 @@ void keyPressed() {
   if(key=='B') {M.smoothen(); M.normals();}
   if(key=='Y') {M.refine();}
   if(key=='`') {M.clean();}
-  if(key=='p') {M.computePath();}
+  if(key=='p') {M.computePath(M.sc,M.cc);}
   
 
   if(key=='Q') exit();

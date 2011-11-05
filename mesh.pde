@@ -423,34 +423,48 @@ void computeIsolation() {
   println("finished isolation");
   }
   
-void computePath() {                 // graph based shortest path between t(c0 and t(prevc), prevc is the previously picekd corner
-  for(int i=0; i<nt; i++) {Mt[i]=0;}; // reset marking
-  Mt[t(sc)]=1; // Mt[0]=1;            // mark seed triangle
+void computePath(int startCorner, int endCorner) {                 // graph based shortest path between t(c0 and t(prevc), prevc is the previously picekd corner
+  int[] tempMt = new int[maxnt];                 // triangle markers for distance and other things   
+  for(int i=0; i<nt; i++) {tempMt[i]=0;}; // reset marking
+  tempMt[t(startCorner)]=1; // tempMt[0]=1;            // mark seed triangle
   for(int i=0; i<nc; i++) {P[i]=false;}; // reset corners as not visited
   int r=1;
   boolean searching=true;
   while (searching) {
      for(int i=0; i<nc; i++) {
-       if (searching&&(Mt[t(i)]==0)&&(!b(i))) { // t(i) is an unvisited triangle and i is not facing a border edge
-         if(Mt[t(o(i))]==r) { // if opposite triangle is ring r
-           Mt[t(i)]=r+1; // mark (invade) t(i) as part of ring r+1
+       if (searching&&(tempMt[t(i)]==0)&&(!b(i))) { // t(i) is an unvisited triangle and i is not facing a border edge
+         if(tempMt[t(o(i))]==r) { // if opposite triangle is ring r
+           tempMt[t(i)]=r+1; // mark (invade) t(i) as part of ring r+1
            P[i]=true;    // mark corner i as visited
-           if(t(i)==t(cc)){searching=false;}; // if we reached the end?
+           if(t(i)==t(endCorner)){searching=false;}; // if we reached the end?
            };
          };
        };
      r++;
      };
-  for(int i=0; i<nt; i++) {Mt[i]=0;};  // graph distance between triangle and t(c)
+  for(int i=0; i<nt; i++) {tempMt[i]=0;};  // graph distance between triangle and t(c)
   rings=1;      // track ring number
   int b=cc;
   int k=0;
   while (t(b)!=t(sc)) { // back track
     rings++;  
-    if (P[b]) {b=o(b); } else {if (P[p(b)]) {b=r(b); } else {b=l(b);};}; Mt[t(b)]=rings; };
-  }
+    if (P[b]) {b=o(b); } else {if (P[p(b)]) {b=r(b); } else {b=l(b);};}; tempMt[t(b)]=rings; 
+  };
 
- void  showDistance() {noStroke(); for(int t=0; t<nt; t++) if(Mt[t]!=0) {fill(ramp(Mt[t],rings)); showShrunkOffsetT(t,1,1);}; noFill(); } 
+  for(int i=0; i<nt;i++){
+    Mt[i]=max(Mt[i],tempMt[i]);
+  }
+}
+
+ void  showDistance() {
+   noStroke(); 
+   for(int t=0; t<nt; t++) 
+     if(Mt[t]!=0) {
+       fill(ramp(Mt[t],rings));
+       showShrunkOffsetT(t,1,1);
+     }; 
+   noFill(); 
+ } 
 
 
 //  ==========================================================  GARBAGE COLLECTION ===========================================
