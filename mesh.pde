@@ -150,7 +150,7 @@ vec[] Nt = new vec [maxnt];                // triangles normals
   int retClosestCorner (pt X) {
     int ret = 0;
     for (int b=0; b<nc; b++) 
-      if(d(X,g(b))<d(X,g(cc))) {
+      if(d(X,g(b))<d(X,g(ret))) {
         ret=b; 
         //pc=b; 
       } 
@@ -466,7 +466,7 @@ int[] computePath(int startCorner, int endCorner) {                 // graph bas
   rings=1;      // track ring number
   int b=endCorner;
   int k=0;
-  while (t(b)!=t(sc)) { // back track
+  while (t(b)!=t(startCorner)) { // back track
     rings++;  
     if (P[b]) {b=o(b); } else {if (P[p(b)]) {b=r(b); } else {b=l(b);};}; tempMt[t(b)]=rings; 
   };

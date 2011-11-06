@@ -158,8 +158,10 @@ void keyPressed() {
   if(key=='`') {M.clean();}
   if(key=='p') {
     M.clearMt();
-    M.setMt(M.computePath(M.sc,M.cc));
-    //M.setMt(M.computePath(M.retClosestCorner(CP[1]),M.retClosestCorner(CP[2])));
+    //M.setMt(M.computePath(M.sc,M.cc));
+    M.setMt(M.computePath(M.retClosestCorner(CP[2]),M.retClosestCorner(CP[1])));
+    M.cc=M.retClosestCorner(CP[1]);
+    M.sc=M.retClosestCorner(CP[2]);
     println("cc: "+M.cc+" sc: "+M.sc);
     println("CP[1]: "+M.retClosestCorner(CP[1])+" CP[2]: "+M.retClosestCorner(CP[2]));
   }
