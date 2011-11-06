@@ -427,7 +427,13 @@ void clearMt(){
   for(int i=0; i<nt; i++) {Mt[i]=0;}; // reset marking
 }
 
-void computePath(int startCorner, int endCorner) {                 // graph based shortest path between t(c0 and t(prevc), prevc is the previously picekd corner
+void setMt(int[] tempMt){
+  for(int i=0; i<nt;i++){
+    Mt[i]=tempMt[i];
+  }
+}
+
+int[] computePath(int startCorner, int endCorner) {                 // graph based shortest path between t(c0 and t(prevc), prevc is the previously picekd corner
   int[] tempMt = new int[maxnt];                 // triangle markers for distance and other things   
   for(int i=0; i<nt; i++) {tempMt[i]=0;}; // reset marking
   tempMt[t(startCorner)]=1; // tempMt[0]=1;            // mark seed triangle
@@ -454,10 +460,7 @@ void computePath(int startCorner, int endCorner) {                 // graph base
     rings++;  
     if (P[b]) {b=o(b); } else {if (P[p(b)]) {b=r(b); } else {b=l(b);};}; tempMt[t(b)]=rings; 
   };
-
-  for(int i=0; i<nt;i++){
-    Mt[i]=max(Mt[i],tempMt[i]);
-  }
+  return tempMt;
 }
 
  void  showDistance() {
