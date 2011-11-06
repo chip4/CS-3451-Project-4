@@ -154,15 +154,28 @@ vec[] Nt = new vec [maxnt];                // triangles normals
     pt C = G[v(n(n(c(t))))];
 
     float areaT = areaOfT(A,B,C);
-    float epsilon = areaT/100;
+    float epsilon = 200;
 
     float areaTotal = areaOfT(P,B,C) + areaOfT(A,P,C) + areaOfT(A,B,P);
     //println("areaT: " + areaT + " areaTotal: "+areaTotal);
+    //println(areaT-areaTotal);
 
     //println((areaT-epsilon <= areaTotal)&&(areaT+epsilon >= areaTotal));
     return (areaT-epsilon <= areaTotal)&&(areaT+epsilon >= areaTotal);
 
   } 
+  float sumAreas(pt P, int t){
+    pt A = G[v(c(t))];
+    pt B = G[v(n(c(t)))];
+    pt C = G[v(n(n(c(t))))];
+
+    float areaT = areaOfT(A,B,C);
+    float epsilon = areaT/5;
+
+    float areaTotal = areaOfT(P,B,C) + areaOfT(A,P,C) + areaOfT(A,B,P);
+
+    return abs(areaT-areaTotal);
+  }
   float areaOfT(pt p1, pt p2, pt p3){
     return .5*sqrt(
         sq(det(p1.x,p2.x,p3.x,p1.y,p2.y,p3.y)) +
@@ -177,6 +190,7 @@ vec[] Nt = new vec [maxnt];                // triangles normals
     int ret = 0;
     for (int b=0; b<nc; b++) 
       if(d(X,g(b))<d(X,g(ret))) {
+        //if(sumAreas(X,t(b)) < sumAreas(X,t(ret))){
         if(ptInTriangle(X,t(b))){
           ret=b; 
         }
