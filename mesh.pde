@@ -523,6 +523,7 @@ int[] computePath(int startCorner, int endCorner) {                 // graph bas
     rings++;  
     if (P[b]) {b=o(b); } else {if (P[p(b)]) {b=r(b); } else {b=l(b);};}; tempMt[t(b)]=rings; 
   };
+  tempMt[t(endCorner)]=1; // tempMt[0]=1;            // mark end triangle
   return tempMt;
 }
 

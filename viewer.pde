@@ -186,7 +186,7 @@ void spanningTree(){
       i++;
     }
     
-    println(i);
+    //println(i);
     visited[i]=1;
 
     //find closesest point CP[x] to current point CP[i] from the not visited list
@@ -198,7 +198,7 @@ void spanningTree(){
       if(visited[j]==0){
         int oldMinDist = minDist;
         tempMinMt = M.computePath(M.retClosestCorner(CP[i]),M.retClosestCorner(CP[j]));
-        println("comparing "+i+" and "+j);
+        //println("comparing "+i+" and "+j);
         minDist = min(minDist,countOnes(tempMinMt));
         if(minDist != oldMinDist){
           cpMin = j;
