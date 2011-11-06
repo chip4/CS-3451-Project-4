@@ -147,11 +147,39 @@ vec[] Nt = new vec [maxnt];                // triangles normals
   void picksOfClosestVertex (pt X) {for (int b=0; b<nc; b++) if(d(X,g(b))<d(X,g(sc))) {sc=b;} } // picks corner of closest vertex to X
   void picks (pt X) {for (int b=0; b<nc; b++) if(d(X,cg(b))<d(X,cg(sc))) {sc=b;} } // picks closest corner to X
 
+  boolean ptInTriangle(pt P, int t){
+    //println("in ptInTriangle");
+    pt A = G[v(c(t))];
+    pt B = G[v(n(c(t)))];
+    pt C = G[v(n(n(c(t))))];
+
+    float areaT = areaOfT(A,B,C);
+    float epsilon = areaT/100;
+
+    float areaTotal = areaOfT(P,B,C) + areaOfT(A,P,C) + areaOfT(A,B,P);
+    //println("areaT: " + areaT + " areaTotal: "+areaTotal);
+
+    //println((areaT-epsilon <= areaTotal)&&(areaT+epsilon >= areaTotal));
+    return (areaT-epsilon <= areaTotal)&&(areaT+epsilon >= areaTotal);
+
+  } 
+  float areaOfT(pt p1, pt p2, pt p3){
+    return .5*sqrt(
+        sq(det(p1.x,p2.x,p3.x,p1.y,p2.y,p3.y)) +
+        sq(det(p1.y,p2.y,p3.y,p1.z,p2.z,p3.z)) +
+        sq(det(p1.z,p2.z,p3.z,p1.x,p2.x,p3.x)) 
+      );
+  }
+  float det(float p1, float p2, float p3, float p4, float p5, float p6){
+    return (p1*(p5-p6)-p2*(p4-p6)+p3*(p4-p5));
+  }
   int retClosestCorner (pt X) {
     int ret = 0;
     for (int b=0; b<nc; b++) 
       if(d(X,g(b))<d(X,g(ret))) {
-        ret=b; 
+        if(ptInTriangle(X,t(b))){
+          ret=b; 
+        }
         //pc=b; 
       } 
     return ret;
@@ -447,6 +475,11 @@ int[] computePath(int startCorner, int endCorner) {                 // graph bas
   int[] tempMt = new int[maxnt];                 // triangle markers for distance and other things   
   for(int i=0; i<nt; i++) {tempMt[i]=0;}; // reset marking
   tempMt[t(startCorner)]=1; // tempMt[0]=1;            // mark seed triangle
+
+  if(t(startCorner)==t(endCorner)){
+    return tempMt;
+  }
+
   for(int i=0; i<nc; i++) {P[i]=false;}; // reset corners as not visited
   int r=1;
   boolean searching=true;
