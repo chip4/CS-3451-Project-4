@@ -156,10 +156,72 @@ void keyPressed() {
   if(key=='B') {M.smoothen(); M.normals();}
   if(key=='Y') {M.refine();}
   if(key=='`') {M.clean();}
-  if(key=='p') {M.computePath();}
+  if(key=='p') {
+    M.clearMt();
+    //M.setMt(M.computePath(M.sc,M.cc));
+    /*M.setMt(M.computePath(M.retClosestCorner(CP[2]),M.retClosestCorner(CP[1])));
+    M.cc=M.retClosestCorner(CP[1]);
+    M.sc=M.retClosestCorner(CP[2]);
+    println("cc: "+M.cc+" sc: "+M.sc);
+    println("CP[1]: "+M.retClosestCorner(CP[1])+" CP[2]: "+M.retClosestCorner(CP[2]));
+    */spanningTree();
+  }
   
 
   if(key=='Q') exit();
   // M.writeCorner(); 
   } 
 
+void spanningTree(){
+  int numMarkers = 10;
+  int[] visited = new int[numMarkers];
+  for(int i=0; i<numMarkers; i++){
+    if(CP[i].x==0 && CP[i].y==0 && CP[i].z==0)
+      visited[i]=1;
+  }
+
+  while(countOnes(visited)<numMarkers){
+    int i = 0;
+    while(visited[i]==1){
+      i++;
+    }
+    
+    //println(i);
+    visited[i]=1;
+
+    //find closesest point CP[x] to current point CP[i] from the not visited list
+    int minDist = Integer.MAX_VALUE;
+    int[] minMt = new int[M.maxnt];                 // triangle markers for distance and other things   
+    int[] tempMinMt = new int[M.maxnt];
+    int cpMin = 0;
+    for(int j=0; j<numMarkers;j++){
+      if(visited[j]==0){
+        int oldMinDist = minDist;
+        tempMinMt = M.computePath(M.retClosestCorner(CP[i]),M.retClosestCorner(CP[j]));
+        //println("comparing "+i+" and "+j);
+        minDist = min(minDist,countOnes(tempMinMt));
+        if(minDist != oldMinDist){
+          cpMin = j;
+          for(int k=0;k<M.maxnt;k++){
+            minMt[k]=tempMinMt[k];
+            //print(minMt[k]);
+          }
+        }
+      }
+    }
+    for(int z=0;z<minMt.length;z++){
+      //print(minMt[z]);
+    }
+    
+    //visited[cpMin] = 1;
+    M.addToMt(minMt);
+  }
+}
+
+int countOnes(int[] x){
+  int ret = 0;
+  for(int i=0; i<x.length; i++){
+    ret += x[i];
+  }
+  return ret;
+}

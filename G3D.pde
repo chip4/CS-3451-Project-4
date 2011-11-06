@@ -60,7 +60,10 @@ class pt { float x=0,y=0,z=0;
    pt mul(float f) {x*=f; y*=f; z*=f; return this;};
    pt div(float f) {x/=f; y/=f; z/=f; return this;};
    pt div(int f) {x/=f; y/=f; z/=f; return this;};
+   float dot(pt P){
+     return x*P.x + y*P.y + z*P.z;
    }
+ }
    
 // =====  point functions
 pt P() {return new pt(); };                                            // point (x,y,z)
