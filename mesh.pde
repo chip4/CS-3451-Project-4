@@ -147,6 +147,16 @@ vec[] Nt = new vec [maxnt];                // triangles normals
   void picksOfClosestVertex (pt X) {for (int b=0; b<nc; b++) if(d(X,g(b))<d(X,g(sc))) {sc=b;} } // picks corner of closest vertex to X
   void picks (pt X) {for (int b=0; b<nc; b++) if(d(X,cg(b))<d(X,cg(sc))) {sc=b;} } // picks closest corner to X
 
+  int retClosestCorner (pt X) {
+    int ret = 0;
+    for (int b=0; b<nc; b++) 
+      if(d(X,g(b))<d(X,g(cc))) {
+        ret=b; 
+        //pc=b; 
+      } 
+    return ret;
+  } // returns corner of closest vertex to X
+
   // move the vertex of a corner
   void setG(int c, pt P) {G[v(c)].set(P);}       // moves vertex of c to P
   Mesh add(int c, vec V) {G[v(c)].add(V); return this;}             // moves vertex of c to P
@@ -454,7 +464,7 @@ int[] computePath(int startCorner, int endCorner) {                 // graph bas
      };
   for(int i=0; i<nt; i++) {tempMt[i]=0;};  // graph distance between triangle and t(c)
   rings=1;      // track ring number
-  int b=cc;
+  int b=endCorner;
   int k=0;
   while (t(b)!=t(sc)) { // back track
     rings++;  
