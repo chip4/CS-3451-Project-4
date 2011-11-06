@@ -164,7 +164,7 @@ vec[] Nt = new vec [maxnt];                // triangles normals
     return (areaT-epsilon <= areaTotal)&&(areaT+epsilon >= areaTotal);
 
   } 
-  float sumAreas(pt P, int t){
+  /*float sumAreas(pt P, int t){
     pt A = G[v(c(t))];
     pt B = G[v(n(c(t)))];
     pt C = G[v(n(n(c(t))))];
@@ -175,7 +175,7 @@ vec[] Nt = new vec [maxnt];                // triangles normals
     float areaTotal = areaOfT(P,B,C) + areaOfT(A,P,C) + areaOfT(A,B,P);
 
     return abs(areaT-areaTotal);
-  }
+  }*/
   float areaOfT(pt p1, pt p2, pt p3){
     return .5*sqrt(
         sq(det(p1.x,p2.x,p3.x,p1.y,p2.y,p3.y)) +
@@ -482,6 +482,12 @@ void clearMt(){
 void setMt(int[] tempMt){
   for(int i=0; i<nt;i++){
     Mt[i]=tempMt[i];
+  }
+}
+
+void addToMt(int[] tempMt){
+  for(int i=0; i<nt;i++){
+    Mt[i]=max(Mt[i],tempMt[i]);
   }
 }
 
