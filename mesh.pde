@@ -666,7 +666,8 @@ void loadMeshOBJ() {
   }; 
 
 
-  void checkManifold(){
+  boolean checkManifold(){
+    boolean ret = false;
     for(int i=0; i< nc; i++){
       int[] checker = {0,0,0};
       int current = s(i);
@@ -680,15 +681,48 @@ void loadMeshOBJ() {
          current = s(current);
       }
       if(checker[0] == 1 && checker[1] == 1 && checker[2] == 1){
-        println("Found " + i);
+        //println("Found " + i);
         vm[v(i)] = 3;
+        ret = true;
       }
       if(b(n(i)) && b(i) && b(p(i))){
-        println("Found vertex " +i);
+        //println("Found vertex " +i);
         vm[v(i)] = 3;
+        ret = true;
       }
       
     }
+    return ret;
+  }
+  
+  void fixManifold(){
+    int[] newT = new int[maxnt*3];
+    int counter = 0;
+    int i = 0;
+    while(vm[v(i)]!=3 && i<nc) i++;
+    
+    newT[counter++] = i;
+    int current = s(i);
+    boolean check = false;
+    boolean done = false;
+    while(current != i && vm[v(i)]==3){
+       if(g(current) != g(i) && g(u(current))==g(i) && !check){
+         newT[counter++] = current;
+         check = true;
+       }
+       if(g(current) == g(i) && g(u(current))!=g(i) && check && !done){
+         newT[counter++] = u(current);
+         done = true;
+       }
+      current = s(current);   
+    }
+    vm[v(i)]=0;
+    for(int j=0; j<counter; j+=3){
+      addTriangle(v(newT[j]),v(newT[j+1]),v(newT[j+2]));
+      println(newT[j] + " , " + newT[j+1] + " , " + newT[j+2]); 
+    }
+    clean();
+    if(checkManifold())fixManifold(); 
   }
 } // ==== END OF MESH CLASS
   

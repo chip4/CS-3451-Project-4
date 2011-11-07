@@ -176,6 +176,7 @@ void keyPressed() {
     cut();
   }
   
+  if(key=='F') M.fixManifold();
 
   if(key=='Q') exit();
   // M.writeCorner(); 
