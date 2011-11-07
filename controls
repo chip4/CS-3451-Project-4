@@ -28,3 +28,4 @@ x+mouse : delete triangle
 / : edge flip
 B : smooth 
 p : computes path from seed to current corner
+^ : show vertices
