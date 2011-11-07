@@ -219,9 +219,9 @@ void spanningTree(){
         }
       }
     }
-    for(int z=0;z<minMt.length;z++){
+    //for(int z=0;z<minMt.length;z++){
       //print(minMt[z]);
-    }
+    //}
     
     //visited[cpMin] = 1;
     M.addToMt(minMt);
@@ -237,4 +237,5 @@ int countOnes(int[] x){
 }
 
 void cut(){
+  M.defineCutLine();
 }

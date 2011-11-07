@@ -304,10 +304,10 @@ void hide() {visible[t(cc)]=false;}
   void showVertices () {
     noStroke(); noSmooth(); 
     for (int v=0; v<nv; v++)  {
-      if (vm[v]==0) fill(yellow,150);
+      if (vm[v]==0) fill(yellow,150);         //default or unmarked
       if (vm[v]==1) fill(red,150);
-      if (vm[v]==2) fill(green,150);
-      if (vm[v]==3){fill(red); show(G[v],8);}
+      if (vm[v]==2){fill(green,150); show(G[v],8);} //used for defining cut
+      if (vm[v]==3){fill(red); show(G[v],8);} //used for non-manifold vertices
       if(Border[v]) fill(magenta,150);
        show(G[v],r);  
       }
@@ -724,6 +724,50 @@ void loadMeshOBJ() {
     clean();
     if(checkManifold())fixManifold(); 
   }
+
+  void defineCutLine(){
+    //find marked triangle
+    //if triangle has one marked vertex, add another
+    //      to add another:
+    //        go to n(c)
+    //        swing until another marked triangle is found (check here for boundary issues)
+    //          count how many marked vertices it has
+    //        if all marked triangles around n(c) have < 2 marked vertices then mark the vertex n(c)
+    //        else mark vertex on p(c)
+    //if triangle has 2 marked vertices, go to next triangle
+   // countMt();
+    for(int t=0;t<Mt.length;t++){
+      if(Mt[t]>=1){
+        if(numMarkedVertices(t)==0){
+          vm[v(c(t))]=2;
+          vm[v(n(c(t)))] = 2;
+        }else if(numMarkedVertices(t)==1){
+
+        }
+      }
+    }
+  }
+
+  int numMarkedVertices(int t){
+    int markedSum = 0;
+    int corner = c(t);
+    do{
+      if(vm[v(corner)]==2) markedSum++;
+      corner = n(corner);
+    }while(corner != c(t));
+
+    return markedSum;
+  }
+  
+  /*void countMt(){
+    int total = 0;
+    for(int i=0;i<Mt.length;i++){
+      if(Mt[i]>=1){
+        total++;
+      }
+    }
+    println("# of 1's in Mt: "+total);
+  }*/
 } // ==== END OF MESH CLASS
   
 vec labelD=new vec(-4,+4, 12);           // offset vector for drawing labels  
