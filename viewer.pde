@@ -166,6 +166,11 @@ void keyPressed() {
     println("CP[1]: "+M.retClosestCorner(CP[1])+" CP[2]: "+M.retClosestCorner(CP[2]));
     */spanningTree();
   }
+
+  if(key=='M'){
+    M.makeGrid(6);
+    M.clean();
+  }
   
 
   if(key=='Q') exit();
