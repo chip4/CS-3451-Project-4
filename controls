@@ -1,4 +1,4 @@
-[space]+mouse :roatae view
+[space]+mouse :rotate view
 z+mouse       : zoom
 .+mouse  : center screen at pt
 s+mouse  : shows closest corner
