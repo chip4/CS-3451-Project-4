@@ -726,50 +726,42 @@ void loadMeshOBJ() {
   }
 
   void defineCutLine(){
-    //find marked triangle
-    //if triangle has one marked vertex, add another
-    //      to add another:
-    //        go to n(c)
-    //        swing until another marked triangle is found (check here for boundary issues)
-    //          count how many marked vertices it has
-    //        if all marked triangles around n(c) have < 2 marked vertices then mark the vertex n(c)
-    //        else mark vertex on p(c)
-    //if triangle has 2 marked vertices, go to next triangle
-   // countMt();
-    for(int t=0;t<Mt.length;t++){
-      if(Mt[t]>=1){
-        if(numMarkedVertices(t)==0){
-          vm[v(c(t))]=2;
-          vm[v(n(c(t)))] = 2;
-        }else if(numMarkedVertices(t)==1){
-
+    clearVmTwos();
+    int i = 0;
+    while(Mt[i]==0){
+      i++;
+      if(i >= Mt.length)
+        return;
+    }
+    int startC = c(i);
+    int c = startC;
+    do{
+      if(vm[v(c)]!=2 && vm[v(c)]!=-1){
+        //if current triangle doesn't have 2 other corners marked, mark this corner's vertex
+        if(vm[v(n(c))]<=0 || vm[v(p(c))]<=0){
+          vm[v(c)]=2;
+        }else{
+          vm[v(c)]=-1;
         }
       }
-    }
-  }
-
-  int numMarkedVertices(int t){
-    int markedSum = 0;
-    int corner = c(t);
-    do{
-      if(vm[v(corner)]==2) markedSum++;
-      corner = n(corner);
-    }while(corner != c(t));
-
-    return markedSum;
+      c = sOnPath(c);
+    }while(c!=startC);
   }
   
-  /*void countMt(){
-    int total = 0;
-    for(int i=0;i<Mt.length;i++){
-      if(Mt[i]>=1){
-        total++;
-      }
+  int sOnPath(int c){
+    //return s(c) unless t(s(c)) isn't marked
+    if(Mt[t(s(c))]>=1)
+      return s(c);
+    else 
+      return p(c);
+  }
+
+  void clearVmTwos(){
+    for(int i=0;i<vm.length;i++){
+      if(vm[i]==2 || vm[i]==-1) vm[i]=0;
     }
-    println("# of 1's in Mt: "+total);
-  }*/
+  }
+  
 } // ==== END OF MESH CLASS
   
 vec labelD=new vec(-4,+4, 12);           // offset vector for drawing labels  
-
-
