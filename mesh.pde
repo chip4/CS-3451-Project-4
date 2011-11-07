@@ -154,7 +154,7 @@ vec[] Nt = new vec [maxnt];                // triangles normals
     pt C = G[v(n(n(c(t))))];
 
     float areaT = areaOfT(A,B,C);
-    float epsilon = 200;
+    float epsilon = 300;
 
     float areaTotal = areaOfT(P,B,C) + areaOfT(A,P,C) + areaOfT(A,B,P);
     //println("areaT: " + areaT + " areaTotal: "+areaTotal);
