@@ -171,6 +171,10 @@ void keyPressed() {
     M.makeGrid(6);
     M.clean();
   }
+
+  if(key=='C'){
+    cut();
+  }
   
 
   if(key=='Q') exit();
@@ -229,4 +233,7 @@ int countOnes(int[] x){
     ret += x[i];
   }
   return ret;
+}
+
+void cut(){
 }
