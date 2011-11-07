@@ -104,8 +104,8 @@ vec[] Nt = new vec [maxnt];                // triangles normals
   int o (int c) {return O[c];};                  // opposite (or self if it has no opposite)
   int l (int c) {return o(n(c));};               // left neighbor (or next if n(c) has no opposite)                      
   int r (int c) {return o(p(c));};               // right neighbor (or previous if p(c) has no opposite)                    
-  int s (int c) {return n(l(c));};               // swings around v(c) or around a border loop
-  int u (int c) {return p(r(c));};               // unswings around v(c) or around a border loop
+  int s (int c) {return n(l(c));};               // swings around v(c) or around a border loop s(c) == p(c)
+  int u (int c) {return p(r(c));};               // unswings around v(c) or around a border loop u(c) == n(c)
   int c (int t) {return t*3;}                    // first corner of triangle t
   boolean b (int c) {return O[c]==c;};           // if faces a border (has no opposite)
   boolean vis(int c) {return visible[t(c)]; };   // true if tiangle of c is visible
@@ -255,7 +255,7 @@ void hide() {visible[t(cc)]=false;}
       if (vm[v]==0) fill(yellow,150);
       if (vm[v]==1) fill(red,150);
       if (vm[v]==2) fill(green,150);
-      if (vm[v]==3) fill(blue,150);
+      if (vm[v]==3){fill(0); show(G[v],20);}
       if(Border[v]) fill(magenta,150);
        show(G[v],r);  
       }
@@ -459,6 +459,7 @@ void clean() {
    compactVO(); println("compactedVO");
    compactV(); println("compactedV");
    normals(); println("normals");
+   checkManifold();
    computeO();
    resetMarkers();
    identifyBorderVertices();
@@ -579,8 +580,16 @@ void loadMeshOBJ() {
   for (int i=0; i<nv; i++) G[i].mul(4);  
   }; 
 
- 
+
+void checkManifold(){
+    if((s(i)==p(i) || !visible[t(s(i))]) && (u(i) == n(i) || !visible[t(u(i))])){
+      println("Found vertex"+ i);
+      vm[i] = 3;
+    }
+  } 
+}
   } // ==== END OF MESH CLASS
   
 vec labelD=new vec(-4,+4, 12);           // offset vector for drawing labels  
+
 
