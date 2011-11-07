@@ -154,7 +154,7 @@ vec[] Nt = new vec [maxnt];                // triangles normals
     pt C = G[v(n(n(c(t))))];
 
     float areaT = areaOfT(A,B,C);
-    float epsilon = 300;
+    float epsilon = 200;
 
     float areaTotal = areaOfT(P,B,C) + areaOfT(A,P,C) + areaOfT(A,B,P);
     //println("areaT: " + areaT + " areaTotal: "+areaTotal);
@@ -667,10 +667,12 @@ void loadMeshOBJ() {
 
 
   void checkManifold(){
+    println("check Manifold");
     for(int i=0; i< nc; i++){
       int[] checker = {0,0,0};
       int current = s(i);
       while(current != i){
+         print(current);
          if(g(current) != g(i) && checker[0] == 0)
            checker[0] = 1;
          if(g(current) == g(i) && checker[0] == 1)
@@ -689,6 +691,38 @@ void loadMeshOBJ() {
       }
       
     }
+  }
+  
+  void fixManifold(){
+    int[] newT = new int[maxnt*3];
+    int counter = 0;
+    for(int i=0; i<nc; i++){
+      if(vm[v(i)] == 3){
+       // int start = i;
+        //int end = i;
+        newT[counter++] = i;
+        int current = s(i);
+        boolean check = false;
+        boolean done = false;
+        while(current != i){
+           print(current);
+           if(g(current) != g(i) && g(u(current))==g(i) && !check){
+             newT[counter++] = current;
+             check = true;
+           }
+           if(g(current) == g(i) && g(u(current))!=g(i) && check && !done){
+             newT[counter++] = u(current);
+             done = true;
+           }
+          current = s(current);   
+        }   
+      }
+    }
+  for(int i=0; i<counter; i+=3){
+    //addTriangle(v(newT[i]),v(newT[i+1]),v(newT[i+2]));
+    println(newT[i] + " , " + newT[i+1] + " , " + newT[i+2]); 
+  }
+  clean(); 
   }
 } // ==== END OF MESH CLASS
   

@@ -166,7 +166,7 @@ void keyPressed() {
     println("CP[1]: "+M.retClosestCorner(CP[1])+" CP[2]: "+M.retClosestCorner(CP[2]));
     */spanningTree();
   }
-  
+  if(key=='F') M.fixManifold();
 
   if(key=='Q') exit();
   // M.writeCorner(); 
