@@ -544,10 +544,10 @@ void clean() {
    compactVO(); println("compactedVO");
    compactV(); println("compactedV");
    normals(); println("normals");
-   checkManifold();
    computeO();
    resetMarkers();
    identifyBorderVertices();
+   checkManifold();
    }  // removes deleted triangles and unused vertices
    
 void excludeInvisibleTriangles () {for (int b=0; b<nc; b++) {if (!visible[t(o(b))]) {O[b]=b;};};}
@@ -666,14 +666,31 @@ void loadMeshOBJ() {
   }; 
 
 
-void checkManifold(){
-    if((s(i)==p(i) || !visible[t(s(i))]) && (u(i) == n(i) || !visible[t(u(i))])){
-      println("Found vertex"+ i);
-      vm[i] = 3;
+  void checkManifold(){
+    for(int i=0; i< nc; i++){
+      int[] checker = {0,0,0};
+      int current = s(i);
+      while(current != i){
+         if(g(current) != g(i) && checker[0] == 0)
+           checker[0] = 1;
+         if(g(current) == g(i) && checker[0] == 1)
+           checker[1] = 1;
+         if(g(current) != g(i) && checker[1] == 1)
+           checker[2] = 1;
+         current = s(current);
+      }
+      if(checker[0] == 1 && checker[1] == 1 && checker[2] == 1){
+        println("Found " + i);
+        vm[i] = 3;
+      }
+      if(b(n(i)) && b(i) && b(p(i))){
+        println("Found vertex " +i);
+        vm[i] = 3;
+      }
+      
     }
-  } 
-}
-  } // ==== END OF MESH CLASS
+  }
+} // ==== END OF MESH CLASS
   
 vec labelD=new vec(-4,+4, 12);           // offset vector for drawing labels  
 
