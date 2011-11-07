@@ -307,7 +307,7 @@ void hide() {visible[t(cc)]=false;}
       if (vm[v]==0) fill(yellow,150);
       if (vm[v]==1) fill(red,150);
       if (vm[v]==2) fill(green,150);
-      if (vm[v]==3){fill(0); show(G[v],20);}
+      if (vm[v]==3){fill(red); show(G[v],8);}
       if(Border[v]) fill(magenta,150);
        show(G[v],r);  
       }
@@ -681,11 +681,11 @@ void loadMeshOBJ() {
       }
       if(checker[0] == 1 && checker[1] == 1 && checker[2] == 1){
         println("Found " + i);
-        vm[i] = 3;
+        vm[v(i)] = 3;
       }
       if(b(n(i)) && b(i) && b(p(i))){
         println("Found vertex " +i);
-        vm[i] = 3;
+        vm[v(i)] = 3;
       }
       
     }
