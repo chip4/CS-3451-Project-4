@@ -7,5 +7,5 @@ to commit to github:
 to update your local repo with the github version:
 	git pull P4 master
 
-Github's git cheat sheet:
-http://help.github.com/git-cheat-sheets/
+selecting file directory
+	cd Documents/Viewer

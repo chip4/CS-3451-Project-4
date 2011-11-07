@@ -104,8 +104,8 @@ vec[] Nt = new vec [maxnt];                // triangles normals
   int o (int c) {return O[c];};                  // opposite (or self if it has no opposite)
   int l (int c) {return o(n(c));};               // left neighbor (or next if n(c) has no opposite)                      
   int r (int c) {return o(p(c));};               // right neighbor (or previous if p(c) has no opposite)                    
-  int s (int c) {return n(l(c));};               // swings around v(c) or around a border loop
-  int u (int c) {return p(r(c));};               // unswings around v(c) or around a border loop
+  int s (int c) {return n(l(c));};               // swings around v(c) or around a border loop s(c) == p(c)
+  int u (int c) {return p(r(c));};               // unswings around v(c) or around a border loop u(c) == n(c)
   int c (int t) {return t*3;}                    // first corner of triangle t
   boolean b (int c) {return O[c]==c;};           // if faces a border (has no opposite)
   boolean vis(int c) {return visible[t(c)]; };   // true if tiangle of c is visible
@@ -307,7 +307,7 @@ void hide() {visible[t(cc)]=false;}
       if (vm[v]==0) fill(yellow,150);
       if (vm[v]==1) fill(red,150);
       if (vm[v]==2) fill(green,150);
-      if (vm[v]==3) fill(blue,150);
+      if (vm[v]==3){fill(red); show(G[v],8);}
       if(Border[v]) fill(magenta,150);
        show(G[v],r);  
       }
@@ -547,6 +547,7 @@ void clean() {
    computeO();
    resetMarkers();
    identifyBorderVertices();
+   checkManifold();
    }  // removes deleted triangles and unused vertices
    
 void excludeInvisibleTriangles () {for (int b=0; b<nc; b++) {if (!visible[t(o(b))]) {O[b]=b;};};}
@@ -664,8 +665,33 @@ void loadMeshOBJ() {
   for (int i=0; i<nv; i++) G[i].mul(4);  
   }; 
 
- 
-  } // ==== END OF MESH CLASS
+
+  void checkManifold(){
+    for(int i=0; i< nc; i++){
+      int[] checker = {0,0,0};
+      int current = s(i);
+      while(current != i){
+         if(g(current) != g(i) && checker[0] == 0)
+           checker[0] = 1;
+         if(g(current) == g(i) && checker[0] == 1)
+           checker[1] = 1;
+         if(g(current) != g(i) && checker[1] == 1)
+           checker[2] = 1;
+         current = s(current);
+      }
+      if(checker[0] == 1 && checker[1] == 1 && checker[2] == 1){
+        println("Found " + i);
+        vm[v(i)] = 3;
+      }
+      if(b(n(i)) && b(i) && b(p(i))){
+        println("Found vertex " +i);
+        vm[v(i)] = 3;
+      }
+      
+    }
+  }
+} // ==== END OF MESH CLASS
   
 vec labelD=new vec(-4,+4, 12);           // offset vector for drawing labels  
+
 
