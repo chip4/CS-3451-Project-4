@@ -725,17 +725,6 @@ void loadMeshOBJ() {
     if(checkManifold())fixManifold(); 
   }
 
-  void defineCutLine(){
-    clearVmTwos();
-    int t = 0;
-    while(Mt[t]==0 || numTrianglesAround(t)>1){
-      t++;
-      if(t>=Mt.length)
-        return;
-    }
-
-    followBranch(c(t));
-  }
   void myFlip(){myFlip(cc);pc=cc; cc=p(cc);}
   void myFlip(int c){
      if(b(c)) return;
@@ -750,10 +739,24 @@ void loadMeshOBJ() {
      O[p(opp)] = p(c);    
   }
   
+  ArrayList<Integer> splitLine = new ArrayList<Integer>();
+  void defineCutLine(){
+    clearVmTwos();
+    int t = 0;
+    while(Mt[t]==0 || numTrianglesAround(t)>1){
+      t++;
+      if(t>=Mt.length)
+        return;
+    }
+
+    followBranch(c(t));
+  }
+
   void followBranch(int startCorner){
     int c = startCorner;
     while(numTrianglesAround(t(c))!=1 || t(c)==t(startCorner)){
       vm[v(c)] = 2;
+      splitLine.add(v(c));
       //Mt[t(c)]=99;
       if(numTrianglesAround(t(c))==3){
         //branch
@@ -780,7 +783,7 @@ void loadMeshOBJ() {
     else 
       return p(c);
   }
-
+  
   void clearVmTwos(){
     for(int i=0;i<vm.length;i++){
       if(vm[i]==2 || vm[i]==-1) vm[i]=0;
