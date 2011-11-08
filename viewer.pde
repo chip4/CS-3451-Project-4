@@ -170,7 +170,9 @@ void keyPressed() {
     M.sc=M.retClosestCorner(CP[2]);
     println("cc: "+M.cc+" sc: "+M.sc);
     println("CP[1]: "+M.retClosestCorner(CP[1])+" CP[2]: "+M.retClosestCorner(CP[2]));
-    */spanningTree();
+    */
+    spanningTree();
+    //chainCPs();
   }
 
   if(key=='M'){
@@ -187,6 +189,12 @@ void keyPressed() {
   if(key=='Q') exit();
   // M.writeCorner(); 
   } 
+
+void chainCPs(){
+  for(int i=0; i<9; i++){
+    M.addToMt(M.computePath(M.retClosestCorner(CP[i]),M.retClosestCorner(CP[i+1])));
+  }
+}
 
 void spanningTree(){
   int numMarkers = 10;
