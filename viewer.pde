@@ -152,7 +152,7 @@ void keyPressed() {
                // mesh edits, smoothing, refinement
   if(key=='b') {pickBack=true; println("picking on the back");}
   if(key=='f') {pickBack=false; println("picking on the front");}
-  if(key=='/') M.flip(); // clip edge opposite to M.cc
+  if(key=='/') M.myFlip(); // clip edge opposite to M.cc
   if(key=='B') {M.smoothen(); M.normals();}
   if(key=='Y') {M.refine();}
   if(key=='`') {M.clean();}
