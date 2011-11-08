@@ -308,7 +308,8 @@ void hide() {visible[t(cc)]=false;}
       if (vm[v]==1) fill(red,150);
       if (vm[v]==2) fill(green,150); 
       if (vm[v]==3){fill(red); show(G[v],8);} //used for non-manifold vertices
-      if (vm[v]==4){fill(green,150); show(G[v],8);} //used for defining cut
+      if (vm[v]==4){fill(green,150); show(G[v],5);} //used for defining cut
+      if (vm[v]==5){fill(white,150); show(G[v],8);} //5 for vertices that need to be pulled
       if(Border[v]) fill(magenta,150);
        show(G[v],r);  
       }
@@ -776,6 +777,7 @@ void loadMeshOBJ() {
     for(int x=0; x<nc; x++){
       if(v(x) == i  && Mt[t(x)]==0){
         V[x] = index;
+        vm[v(x)] = 5; //5 for vertices that need to be pulled
       } 
     }
   } 
@@ -818,6 +820,37 @@ void loadMeshOBJ() {
     if(t(o(p(c)))!=t && Mt[t(o(p(c)))]>0) count++;
     //println(count);
     return count;
+  }
+  
+  void pullMesh(){
+   float frames = 1000;
+   for(int i=0; i< nc; i++){
+     if(vm[v(i)] == 5){
+        pt centroid = findCentroid(v(i));
+        vec dir = V(g(i), centroid).mul(1/frames);
+        g(i).add(dir);
+        for(float x=0; x<1; x+=1.0/frames){
+           g(i).add(dir);
+           redraw();
+        }
+     }
+   }
+  }
+  
+  pt findCentroid(int v){
+    int triCounter = 0;
+    int x =0;
+    int y =0;
+    int z =0;
+    for(int i=0; i< nc; i++){
+      if(v(i) == v){
+         triCounter++;
+         x += (g(i).x + g(n(i)).x + g(p(i)).x)/3;
+         y += (g(i).y + g(n(i)).y + g(p(i)).y)/3;
+         z += (g(i).z + g(n(i)).z + g(p(i)).z)/3; 
+      }
+    }
+    return new pt(x/triCounter, y/triCounter, z/triCounter); 
   }
   
   int sOnPath(int c){
