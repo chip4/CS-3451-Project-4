@@ -345,15 +345,15 @@ void hide() {visible[t(cc)]=false;}
 //  ==========================================================  PROCESS EDGES ===========================================
   // FLIP 
   void flip(int c) {      // flip edge opposite to corner c, FIX border cases
-    if (b(c)) return;
-      V[n(o(c))]=v(c); V[n(c)]=v(o(c));
+    if (b(c)) return; //If a border-facing vertex, return, since there is no opposite edge to flip
+      V[n(o(c))]=v(c); V[n(c)]=v(o(c)); //
       int co=o(c); 
       O[co]=r(c); 
       if(!b(p(c))) O[r(c)]=co; 
       if(!b(p(co))) O[c]=r(co); 
       if(!b(p(co))) O[r(co)]=c; 
       O[p(c)]=p(co); O[p(co)]=p(c);  
-    }
+    } 
   void flip() {flip(cc); pc=cc; cc=p(cc);}
 
   void flipWhenLonger() {for (int c=0; c<nc; c++) if (d(g(n(c)),g(p(c)))>d(g(c),g(o(c)))) flip(c); } 
@@ -724,6 +724,20 @@ void loadMeshOBJ() {
     clean();
     if(checkManifold())fixManifold(); 
   }
+  void myFlip(){myFlip(cc);pc=cc; cc=p(cc);}
+  void myFlip(int c){
+     if(b(c)) return;
+     int opp = o(c);
+     V[n(o(c))] = v(c);
+     V[n(c)] = v(o(c));
+     O[opp] = r(c);
+     if(!b(p(c))) O[r(c)] = opp;
+     if(!b(p(opp))) O[c] = r(opp);
+     if(!b(p(opp))) O[r(opp)]=c; 
+     O[p(c)] = p(opp);
+     O[p(opp)] = p(c);    
+  }
+  
 } // ==== END OF MESH CLASS
   
 vec labelD=new vec(-4,+4, 12);           // offset vector for drawing labels  
