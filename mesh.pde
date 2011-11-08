@@ -769,7 +769,7 @@ void loadMeshOBJ() {
     if(t(o(c))!=t && Mt[t(o(c))]>0) count++;
     if(t(o(n(c)))!=t && Mt[t(o(n(c)))]>0) count++;
     if(t(o(p(c)))!=t && Mt[t(o(p(c)))]>0) count++;
-    println(count);
+    //println(count);
     return count;
   }
   
