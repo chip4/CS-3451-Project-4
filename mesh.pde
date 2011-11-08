@@ -830,7 +830,7 @@ void loadMeshOBJ() {
     timeParameter = 0;
    }
    for(int i=0; i< nc; i++){
-     if(vm[v(i)] == 5){
+     if(vm[v(i)] == 5 || vm[v(i)]==4){
         pt centroid = findCentroid(v(i));
         vec dir = V(g(i), centroid).mul(1.0/frames);
         //print(dir.x);
