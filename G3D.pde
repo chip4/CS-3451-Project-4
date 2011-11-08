@@ -181,3 +181,4 @@ void showShrunk(pt A, pt B, pt C, float e) {
 float scaleDraggedFrom(pt G) {pt S=P(screenX(G.x,G.y,G.z),screenY(G.x,G.y,G.z),0); return d(S,Mouse())/d(S,Pmouse()); }
  
 
+

@@ -762,6 +762,22 @@ void loadMeshOBJ() {
       c=sOnPath(c);
     }
   }
+  
+  void createNewPoints(){
+   int vertexCap = nv;
+   for(int i=0; i< 3*maxnt; i++){
+     if(vm[i] == 4 && v(i)<vertexCap)
+       assignPoints(i,addVertex(g(i)));
+   }
+  }
+  
+  void assignPoints(int i, int index){ //
+    for(int x=0; x<nc; x++){
+      if(v(x) == i  && Mt[t(x)]==0){
+        V[x] = index;
+      } 
+    }
+  } 
 
   int numTrianglesAround(int t){
     int count = 0;
@@ -790,3 +806,4 @@ void loadMeshOBJ() {
 } // ==== END OF MESH CLASS
   
 vec labelD=new vec(-4,+4, 12);           // offset vector for drawing labels  
+

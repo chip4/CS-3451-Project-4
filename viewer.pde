@@ -238,4 +238,5 @@ int countOnes(int[] x){
 
 void cut(){
   M.defineCutLine();
+  M.createNewPoints();
 }

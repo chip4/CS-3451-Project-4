@@ -9,3 +9,4 @@ void showCP() {noStroke(); for (int i=0; i<CP.length; i++) {fill(ramp(i,CP.lengt
 void showCPlabels() {noStroke(); fill(black); for (int i=0; i<CP.length; i++) {fill(ramp(i,CP.length)); show(CP[i],str(i),V(10,I,10,J,2,K));} } // shows IDs
    
   
+
