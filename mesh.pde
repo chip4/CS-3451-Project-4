@@ -766,9 +766,9 @@ void loadMeshOBJ() {
   
   void createNewPoints(){
    int vertexCap = nv;
-   for(int i=0; i< 3*maxnt; i++){
-     if(vm[i] == 4 && v(i)<vertexCap)
-       assignPoints(i,addVertex(g(i)));
+   for(int i=0; i< nc; i++){
+     if(vm[v(i)] == 4 && v(i)<vertexCap)
+       assignPoints(v(i),addVertex(g(i)));
    }
   }
   
@@ -779,7 +779,37 @@ void loadMeshOBJ() {
       } 
     }
   } 
-
+  
+  void setOpposites(){
+    for(int c; c<nc; c+=3){
+      if(countMarkedVertices(t(c)) == 2){
+        int unmarkedC = c;
+        while(vm[v(unmarkedC)] == 4) unmarkedC = n(unmarkedC);
+        O[o(unmarkedC)] = o(unmarkedC);
+        O[unmarkedC] = unmarkedC;
+      }
+      if(countMarkedVertices(t(c)) == 3){
+        int currentC = c;
+        do{
+          if(Mt[o(currentC)] == 0){
+            O[o(currentC)] = o(currentC);
+            O[currentC] = currentC;
+          }
+          currentC = n(currentC);
+        }while(currentC != c);
+      }
+    } 
+  }
+  
+  int countMarkedVertices(int t){
+    int c= c(t);
+    int count = 0;
+    if(vm[v(c)] == 4) count++;
+    if(vm[v(n(c))] == 4) count++;
+    if(vm[v(p(c))] == 4) count++;
+    return count;
+  }
+  
   int numTrianglesAround(int t){
     int count = 0;
     int c = c(t);
@@ -807,4 +837,5 @@ void loadMeshOBJ() {
 } // ==== END OF MESH CLASS
   
 vec labelD=new vec(-4,+4, 12);           // offset vector for drawing labels  
+
 
