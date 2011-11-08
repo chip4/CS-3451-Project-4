@@ -781,7 +781,7 @@ void loadMeshOBJ() {
   } 
   
   void setOpposites(){
-    for(int c; c<nc; c+=3){
+    for(int c=0; c<nc; c+=3){
       if(countMarkedVertices(t(c)) == 2){
         int unmarkedC = c;
         while(vm[v(unmarkedC)] == 4) unmarkedC = n(unmarkedC);
