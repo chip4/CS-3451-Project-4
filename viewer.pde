@@ -220,14 +220,10 @@ void spanningTree(){
           cpMin = j;
           for(int k=0;k<M.maxnt;k++){
             minMt[k]=tempMinMt[k];
-            //print(minMt[k]);
           }
         }
       }
     }
-    //for(int z=0;z<minMt.length;z++){
-      //print(minMt[z]);
-    //}
     
     //visited[cpMin] = 1;
     M.addToMt(minMt);
