@@ -739,7 +739,6 @@ void loadMeshOBJ() {
      O[p(opp)] = p(c);    
   }
   
-  ArrayList<Integer> splitLine = new ArrayList<Integer>();
   void defineCutLine(){
     clearVmTwos();
     int t = 0;
@@ -756,8 +755,6 @@ void loadMeshOBJ() {
     int c = startCorner;
     while(numTrianglesAround(t(c))!=1 || t(c)==t(startCorner)){
       vm[v(c)] = 2;
-      splitLine.add(v(c));
-      //Mt[t(c)]=99;
       if(numTrianglesAround(t(c))==3){
         //branch
         followBranch(n(o(c)));
