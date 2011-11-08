@@ -741,9 +741,10 @@ void loadMeshOBJ() {
     int c = startCorner;
     while(numTrianglesAround(t(c))!=1 || t(c)==t(startCorner)){
       vm[v(c)] = 2;
-      if(numTrianglesAround(t(c))==3 && t(c)!=t(startCorner)){
+      //Mt[t(c)]=99;
+      if(numTrianglesAround(t(c))==3){
         //branch
-        //followBranch(p(o(c)));
+        followBranch(n(o(c)));
       }
       c=sOnPath(c);
     }
@@ -751,9 +752,10 @@ void loadMeshOBJ() {
 
   int numTrianglesAround(int t){
     int count = 0;
-    for(int i=0; i<3; i++){
-      if(o(c(t)+i)!=t && Mt[t(o(c(t)+i))]>0) count++;
-    }
+    int c = c(t);
+    if(t(o(c))!=t && Mt[t(o(c))]>0) count++;
+    if(t(o(n(c)))!=t && Mt[t(o(n(c)))]>0) count++;
+    if(t(o(p(c)))!=t && Mt[t(o(p(c)))]>0) count++;
     println(count);
     return count;
   }
