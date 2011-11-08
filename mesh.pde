@@ -825,7 +825,10 @@ void loadMeshOBJ() {
   float timeParameter = 0;
   void pullMesh(float frames){
    timeParameter += 1.0/frames;
-   if(timeParameter>=1) animate=false;
+   if(timeParameter>=1){
+    animate=false;
+    timeParameter = 0;
+   }
    for(int i=0; i< nc; i++){
      if(vm[v(i)] == 5){
         pt centroid = findCentroid(v(i));
