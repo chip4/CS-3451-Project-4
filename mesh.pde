@@ -306,8 +306,9 @@ void hide() {visible[t(cc)]=false;}
     for (int v=0; v<nv; v++)  {
       if (vm[v]==0) fill(yellow,150);         //default or unmarked
       if (vm[v]==1) fill(red,150);
-      if (vm[v]==2){fill(green,150); show(G[v],8);} //used for defining cut
+      if (vm[v]==2) fill(green,150); 
       if (vm[v]==3){fill(red); show(G[v],8);} //used for non-manifold vertices
+      if (vm[v]==4){fill(green,150); show(G[v],8);} //used for defining cut
       if(Border[v]) fill(magenta,150);
        show(G[v],r);  
       }
@@ -740,7 +741,7 @@ void loadMeshOBJ() {
   }
   
   void defineCutLine(){
-    clearVmTwos();
+    clearVmFours();
     int t = 0;
     while(Mt[t]==0 || numTrianglesAround(t)>1){
       t++;
@@ -754,7 +755,7 @@ void loadMeshOBJ() {
   void followBranch(int startCorner){
     int c = startCorner;
     while(numTrianglesAround(t(c))!=1 || t(c)==t(startCorner)){
-      vm[v(c)] = 2;
+      vm[v(c)] = 4;
       if(numTrianglesAround(t(c))==3){
         //branch
         followBranch(n(o(c)));
@@ -781,9 +782,9 @@ void loadMeshOBJ() {
       return p(c);
   }
   
-  void clearVmTwos(){
+  void clearVmFours(){
     for(int i=0;i<vm.length;i++){
-      if(vm[i]==2 || vm[i]==-1) vm[i]=0;
+      if(vm[i]==4 || vm[i]==-1) vm[i]=0;
     }
   }
   
