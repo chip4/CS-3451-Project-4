@@ -822,17 +822,17 @@ void loadMeshOBJ() {
     return count;
   }
   
-  void pullMesh(){
-   float frames = 1000;
+  float timeParameter = 0;
+  void pullMesh(float frames){
+   timeParameter += 1.0/frames;
+   if(timeParameter>=1) animate=false;
    for(int i=0; i< nc; i++){
      if(vm[v(i)] == 5){
         pt centroid = findCentroid(v(i));
-        vec dir = V(g(i), centroid).mul(1/frames);
+        vec dir = V(g(i), centroid).mul(1.0/frames);
+        //print(dir.x);
         g(i).add(dir);
-        for(float x=0; x<1; x+=1.0/frames){
-           g(i).add(dir);
-           redraw();
-        }
+        //print("|"+g(i).x);
      }
    }
   }

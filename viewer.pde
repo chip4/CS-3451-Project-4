@@ -18,6 +18,8 @@ void initView() {Q=P(0,0,0); I=V(1,0,0); J=V(0,1,0); K=V(0,0,1); F = P(0,0,0); E
 Mesh M = new Mesh();   // input mesh to be compressed 
 Mesh R = new Mesh();   // output mesh decompressed
 
+boolean animate = false;
+
 // SETUP
 void setup() {
   size(900, 900, OPENGL); // size(500, 500, OPENGL);  
@@ -99,6 +101,10 @@ void draw() {
   M.showDistance();
   
   
+  if(animate){
+    //println("animating");
+    M.pullMesh(100);
+  }
   } // end draw
  
  // ****************** INTERRUPTS ************************* 
@@ -239,5 +245,5 @@ int countOnes(int[] x){
 void cut(){
   M.defineCutLine();
   M.createNewPoints();
-  M.pullMesh();
+  animate = true;
 }
