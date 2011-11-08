@@ -727,25 +727,35 @@ void loadMeshOBJ() {
 
   void defineCutLine(){
     clearVmTwos();
-    int i = 0;
-    while(Mt[i]==0){
-      i++;
-      if(i >= Mt.length)
+    int t = 0;
+    while(Mt[t]==0 || numTrianglesAround(t)>1){
+      t++;
+      if(t>=Mt.length)
         return;
     }
-    int startC = c(i);
-    int c = startC;
-    do{
-      if(vm[v(c)]!=2 && vm[v(c)]!=-1){
-        //if current triangle doesn't have 2 other corners marked, mark this corner's vertex
-        if(vm[v(n(c))]<=0 || vm[v(p(c))]<=0){
-          vm[v(c)]=2;
-        }else{
-          vm[v(c)]=-1;
-        }
+
+    followBranch(c(t));
+  }
+  
+  void followBranch(int startCorner){
+    int c = startCorner;
+    while(numTrianglesAround(t(c))!=1 || t(c)==t(startCorner)){
+      vm[v(c)] = 2;
+      if(numTrianglesAround(t(c))==3 && t(c)!=t(startCorner)){
+        //branch
+        //followBranch(p(o(c)));
       }
-      c = sOnPath(c);
-    }while(c!=startC);
+      c=sOnPath(c);
+    }
+  }
+
+  int numTrianglesAround(int t){
+    int count = 0;
+    for(int i=0; i<3; i++){
+      if(o(c(t)+i)!=t && Mt[t(o(c(t)+i))]>0) count++;
+    }
+    println(count);
+    return count;
   }
   
   int sOnPath(int c){
